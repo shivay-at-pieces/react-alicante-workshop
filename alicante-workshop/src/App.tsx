@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { generateAnswer } from "./utils/langchain";
+import { useEffect, useState } from "react";
+import { generateAnswerRAG, generateAndStoreEmbeddings } from "./utils/langchain";
 import Message from "./components/Message/Message";
 import Loader from "./components/Loader/Loader";
 
@@ -8,20 +8,23 @@ export default function App() {
   const [result, setResult] = useState({ question: "", answer: ""})
   const [isLoading, setIsLoading] = useState(false)
   const [hasError, setHasError] = useState(false)
-
     
+  useEffect(() => {
+    generateAndStoreEmbeddings()
+  }, [])
+
   async function handleSubmitQuestion(input: string) {
     setResult({ ...result, question: input })
     setIsLoading(true)
 
     try {
-      const response = await generateAnswer(input)
+      const response = await generateAnswerRAG(input)
 
       if (response) setResult({ ...result, answer: response })
     } catch(e) {
       console.error(e)
       setHasError(true)
-    }finally {
+    } finally {
       setIsLoading(false)
     }
   }
@@ -32,12 +35,18 @@ export default function App() {
       <div className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
         <div className="flex-1 overflow-hidden dark:bg-gray-800">
             <h1 className="text-2xl sm:text-4xl font-semibold text-center text-gray-200 dark:text-gray-600 flex gap-4 p-4 items-center justify-center">
-             React Alicante Ollama Workshop
+              React Alicante Ollama Workshop
             </h1>
           <div className="h-full ">
             <div className="h-full flex flex-col items-center text-sm dark:bg-gray-800">
-            {isLoading && <Loader /> }
-              {result?.answer && <Message sender="Me" title="Now" message={hasError ? 'Something went wrong' : result?.answer}  />}
+              {isLoading && <Loader /> }
+              {result?.answer && (
+                <Message 
+                  sender="Me" 
+                  title="Now" 
+                  message={hasError ? 'Something went wrong' : result?.answer} 
+                />
+              )}
             </div>
           </div>
         </div>
