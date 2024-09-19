@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { generateAnswer } from "./utils/langchain";
+import Message from "./components/Message/Message";
 
 export default function App() {
   const [question, setQuestion] = useState("")
-
+  const [result, setResult] = useState({ question: "", answer: ""})
+    
   async function handleSubmitQuestion(input: string) {
+    setResult({ ...result, question: input })
+
     try {
       const response = await generateAnswer(input)
-      console.log("Question:", input)
-      console.log("Answer:", response)
+
+      if (response) setResult({ ...result, answer: response })
     } catch(e) {
       console.error(e)
     }
@@ -24,6 +28,7 @@ export default function App() {
             </h1>
           <div className="h-full ">
             <div className="h-full flex flex-col items-center text-sm dark:bg-gray-800">
+              {result?.answer && <Message sender="Me" title="Now" message={result?.answer} />}
             </div>
           </div>
         </div>
@@ -32,8 +37,8 @@ export default function App() {
           <form 
             onSubmit={(e) => {
               e.preventDefault()
-              handleSubmitQuestion(question)
-            }}
+              handleSubmitQuestion(question)}
+            }
             className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
           >  
             <div className="relative flex flex-col h-full flex-1 items-stretch md:flex-col">
