@@ -3,7 +3,8 @@ import { PromptTemplate } from "@langchain/core/prompts";
 
 const llm = new Ollama({
     baseUrl: "http://localhost:11434",
-    model: "llama3"
+    model: "llama3",
+    temperature: 0
 });
 
 export async function generateAnswer(
