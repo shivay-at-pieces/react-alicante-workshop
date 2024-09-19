@@ -29,34 +29,6 @@ Go the link displayed in your terminal, you should be seeing the intial applicat
 
 
 
-# AI For Frontend Workshop
-
-![AI For Frontend demo](/assets/chat-app-document-loader.png)
-
-## Prerequisites
-
-- OpenAI API Key. You can sign up for a [free trial](https://openai.com/pricing) > "Login".
-
-## Installation
-
-The application we'll be building today is using [Vite](https://vitejs.dev/), a build tool for modern JavaScript (and TypeScript) applications.
-
-We need to set up the initial, bootstrapped application for this workshop. Run the following commands to set it up:
-
-```bash
-cd my-gpt
-npm install
-npm run dev
-```
-
-Go the link displayed in your terminal, you should be seeing the intial application.
-
-The app will look something like:
-
-![Initial Chat app](/assets/initial-chat-app.png)
-
-You're now ready to start with the excercises.
-
 ## Excercises
 
 ### Excercise 1
@@ -64,14 +36,12 @@ You're now ready to start with the excercises.
 To interface with the LLMs from OpenAI, we need to install a library called LangChain:
 
 ```bash
-npm install langchain @langchain/openai
+npm install langchain
 ```
 
 After the installation is complete, you should add a new file called `.env` in the root of your Vite application and add the following environment variable:
 
-```txt
-VITE_OPENAI_KEY=sk-********
-```
+
 
 Next, we'll create a new file called `src/utils/langchain.ts` and add the following code:
 
