@@ -1,6 +1,4 @@
-# AI For Frontend Workshop
-
-![AI For Frontend demo](/assets/chat-app-document-loader.png)
+# React Alicante Ollama Workshop
 
 ## Prerequisites
 
