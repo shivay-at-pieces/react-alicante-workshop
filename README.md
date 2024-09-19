@@ -114,53 +114,18 @@ We want to be able to use the messagebox in the application to send the question
 
 From our `App` component in `src/App.tsx`, we need to call the `generateAnswer` function we created in the previous excercise. First, let's create some state variables and import the function:
 
-<details open>
-    <summary>src/App.tsx</summary>
-
-```ts
-import { useState } from "react";
-import { generateAnswer } from "./utils/langchain";
-
-export default function App() {
-    const [question, setQuestion] = useState("");
-    const [result, setResult] = useState({ question: "", answer: "" });
-
-    // Everything else ...
-
-}
 ```
-
-</details>
-
-To call the `generateAnswer` function and add the question and answer to the state, you'll need to create a handler function. Add the following code to `src/App.tsx` and modify it so the state variable `result` contains both the question and answer.
-
-<details open>
-    <summary>src/App.tsx</summary>
-
-```ts
-// ...
-
-export default function App() {
-    const [question, setQuestion] = useState("");
-    const [result, setResult] = useState({ question: "", answer: "" });
-
-    async function handleSubmitQuestion(input: string) {
-        // 1. Store the question in state
-        // 2. Call `generateAnswer` and store the answer in state
+ async function handleSubmitQuestion(input: string) {
+    try {
+      const response = await generateAnswer(input)
+      console.log("Question:", input)
+      console.log("Answer:", response)
+    } catch(e) {
+      console.error(e)
     }
+  }
 
-    return (
-        // Everything else...
-    );
-}
 ```
-
-</details>
-
-Then, turn the `textarea` element into a controlled component that updates the `question` state variable whenever you type something. Also, the handler function we created above must be called when you submit the form.
-
-Submit the form and have a look at the _"Network tab"_ in the browser, make sure you see a request to OpenAI that includes your question and resolves to an answer.
-
 ### Excercise 3
 
 When you submit the form, you want to see the question and the answer displayed in the screen. Create a new component called `Message` in `src/components/Message/Message.tsx`, we'll use this component to render the question and the answer:
